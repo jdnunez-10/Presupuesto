@@ -1,0 +1,52 @@
+
+CREATE TABLE Cliente (
+    dni VARCHAR(20) PRIMARY KEY,
+    nombre VARCHAR(100),
+    apellido VARCHAR(100),
+    telefono VARCHAR(20),
+    correo VARCHAR(100),
+    sueldo DECIMAL(14, 2)
+);
+CREATE TABLE Direccion (
+    idDireccion INT AUTO_INCREMENT PRIMARY KEY,
+    pais VARCHAR(100),
+    departamento VARCHAR(100),
+    ciudad VARCHAR(100),
+    colonia VARCHAR(100),
+    referencia VARCHAR(255),
+    dni VARCHAR(20),
+    FOREIGN KEY (dni) REFERENCES Cliente(dni)
+);
+
+
+CREATE TABLE Prestamos (
+    idPrestamo INT AUTO_INCREMENT PRIMARY KEY,
+    monto DECIMAL(14, 2),
+    plazo INT,
+    tasa_interes DECIMAL(14, 2),
+    cuota DECIMAL(14, 2),
+    estado CHAR(1),
+    tipoPrestamo CHAR(1)
+);
+
+CREATE TABLE cliente_prestamos (
+    dni VARCHAR(20),
+    idPrestamo INT,
+    PRIMARY KEY (dni, idPrestamo),
+    FOREIGN KEY (dni) REFERENCES Cliente(dni),
+    FOREIGN KEY (idPrestamo) REFERENCES Prestamos(idPrestamo)
+);
+
+CREATE TABLE tabla_amortizacion (
+    idPrestamo INT,
+    numeroCuota INT,
+    interes DECIMAL(14, 2),
+    capital DECIMAL(14, 2),
+    saldo DECIMAL(14, 2),
+    estado CHAR(1),
+    fechaVencimiento DATE,
+    PRIMARY KEY (idPrestamo, numeroCuota),
+    FOREIGN KEY (idPrestamo) REFERENCES Prestamos(idPrestamo)
+);
+
+
